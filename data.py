@@ -20,11 +20,9 @@ print("Outcomes shape:", y.shape)
 # 4. Define numerical and categorical columns
 numerical_col = ['AGE','S_AD_KBRIG','D_AD_KBRIG', 'S_AD_ORIT', 'D_AD_ORIT', 'K_BLOOD',
                  'NA_BLOOD', 'ALT_BLOOD', 'AST_BLOOD', 'KFK_BLOOD','L_BLOOD', 'ROE']
-
 categorical_cols = [col for col in X.columns if col not in numerical_col]
 print("Categorical columns:", categorical_cols)
 print("Numerical columns:", numerical_col)
-
 # 5. Impute missing values
 num_imputer = SimpleImputer(strategy='median')
 X.loc[:, numerical_col] = num_imputer.fit_transform(X[numerical_col])
@@ -120,7 +118,7 @@ print(f"Train shape: {X_train.shape}, Test shape: {X_test.shape}")
 # 3. Check Multicollinearity using correlation matrix (Pearson)
 plt.figure(figsize=(12,10))
 corr_matrix = X_train.corr()
-sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm')
+sns.heatmap(corr_matrix, cmap='coolwarm')
 plt.title("Correlation matrix of features - Train set")
 plt.show()
 
@@ -169,12 +167,10 @@ for feat in cont_features:
     t_stat, p_val = ttest_ind(group0, group1, nan_policy='omit')
     print(f"{feat}: t-statistic={t_stat:.3f}, p-value={p_val:.4f}")
 
-# Relief algorithm is not in sklearn; use `skrebate` or other packages (if allowed).
-# If you want, I can show basic ReliefF using a package, but here is a note:
-# Relief evaluates features based on how well their values distinguish between classes in neighboring instances.
 
 # 5. Multivariate Filter: mRMR can be done using external libraries (not default sklearn)
 # If permitted, a basic example using pymrmr:
+# import Cython
 # import pymrmr
 # mrmr_features = pymrmr.mRMR(X_train.assign(target=y_train), 'MID', 10)
 # print("Top features with mRMR:", mrmr_features)
